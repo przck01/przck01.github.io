@@ -36,7 +36,6 @@
             animation: fadeIn 1s;
         }
 
-        /* 🎁 przycisk prezentu */
         #giftBtn {
             display: none;
             position: fixed;
@@ -46,7 +45,6 @@
             cursor: pointer;
         }
 
-        /* 🎁 strona prezentu */
         #giftPage {
             display: none;
             height: 100vh;
@@ -63,27 +61,31 @@
             background: #ff4d6d;
             border-radius: 12px;
             cursor: pointer;
+            overflow: visible;
         }
 
-        /* wstążka pionowa */
+        /* pionowa wstążka (środek) */
         .gift-box::before {
             content: "";
             position: absolute;
-            width: 40px;
+            width: 30px;
             height: 100%;
             background: #ffd166;
             left: 50%;
             transform: translateX(-50%);
+            z-index: 1;
         }
 
-        /* wstążka pozioma */
+        /* pozioma wstążka */
         .gift-box::after {
             content: "";
             position: absolute;
             width: 100%;
-            height: 30px;
+            height: 25px;
             background: #ffd166;
-            top: 50px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1;
         }
 
         /* pokrywka */
@@ -96,26 +98,26 @@
             left: 0;
             border-radius: 8px;
             transition: 1s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        /* kokardka */
+        /* 🎀 kokardka TERAZ NA POKRYWCE */
         .bow {
-            position: absolute;
-            top: -70px;
-            left: 50%;
-            transform: translateX(-50%);
             font-size: 30px;
         }
 
-        /* zdjęcie */
-        .photo {
+        /* 🎬 VIDEO */
+        .video {
             position: absolute;
-            width: 180px;
-            left: 20px;
-            top: 40px;
+            width: 120px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-120px) scale(0.5);
+            top: 0;
             opacity: 0;
-            transform: translateY(-100px);
-            transition: 1s;
+            transition: 1s ease;
+            border-radius: 12px;
         }
 
         button {
@@ -193,24 +195,23 @@
     <p>Paula</p>
 </div>
 
-<!-- 🎁 przycisk -->
 <div id="giftBtn" onclick="openGift()">🎁</div>
 
-<!-- 🎁 strona prezentu -->
 <div id="giftPage">
     <div class="gift-box" onclick="openBox()">
-        <div class="lid" id="lid"></div>
-        <div class="bow">🎀</div>
-        <img src="IMG_3983.JPEG" class="photo" id="photo">
+        <div class="lid" id="lid">
+            <div class="bow">🎀</div>
+        </div>
+
+        <!-- 🎬 VIDEO zamiast zdjęcia -->
+        <video class="video" id="video" src="video.mp4"></video>
     </div>
 </div>
 
-<!-- 🎵 muzyka -->
 <audio id="music">
   <source src="nastelbom-happy-birthday-471481.mp3" type="audio/mpeg">
 </audio>
 
-<!-- 💋 całus -->
 <audio id="kiss">
   <source src="djartmusic-valentines-kissing-transition_10-297312.mp3" type="audio/mpeg">
 </audio>
@@ -232,7 +233,6 @@ function openGift() {
     document.getElementById("content").style.display = "none";
     document.getElementById("giftBtn").style.display = "none";
 
-    // ⛔ zatrzymaj muzykę
     const music = document.getElementById("music");
     music.pause();
     music.currentTime = 0;
@@ -243,11 +243,12 @@ function openGift() {
 function openBox() {
     document.getElementById("lid").style.transform = "translateY(-100px)";
 
-    const photo = document.getElementById("photo");
-    photo.style.opacity = "1";
-    photo.style.transform = "translateY(0px)";
+    const video = document.getElementById("video");
+    video.style.opacity = "1";
+    video.style.transform = "translateX(-50%) translateY(-40px) scale(1.4)";
 
-    // 💋 dźwięk
+    video.play();
+
     document.getElementById("kiss").play();
 }
 
