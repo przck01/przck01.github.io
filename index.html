@@ -14,6 +14,7 @@
             overflow-x: hidden;
         }
 
+        /* 🔐 ekran hasła */
         #lockScreen {
             position: fixed;
             width: 100%;
@@ -32,6 +33,11 @@
             border-radius: 8px;
             border: none;
             margin-top: 10px;
+        }
+
+        /* 🔽 poprawione – przycisk niżej */
+        #lockScreen button {
+            margin-top: 20px;
         }
 
         #start {
@@ -62,6 +68,7 @@
             top: 40%;
             font-size: 40px;
             cursor: pointer;
+            z-index: 5;
         }
 
         #giftPage {
@@ -69,8 +76,33 @@
             height: 100vh;
             justify-content: center;
             align-items: center;
+            position: relative;
         }
 
+        /* 🌑 CIEMNE TŁO */
+        #overlay {
+            display: none;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 6;
+        }
+
+        /* 💡 SPOTLIGHT */
+        #spotlight {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 500px;
+            height: 500px;
+            transform: translate(-50%, -50%);
+            background: radial-gradient(circle, rgba(255,255,255,0.25) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 7;
+        }
+
+        /* 🎁 pudełko */
         .gift-box {
             position: relative;
             width: 220px;
@@ -78,6 +110,7 @@
             background: #ff4d6d;
             border-radius: 12px;
             cursor: pointer;
+            z-index: 8;
         }
 
         .lid {
@@ -107,18 +140,19 @@
             top: 0;
             transform: translateX(-50%) translateY(-120px) scale(0.5);
             opacity: 0;
-            transition: 1s ease;
+            transition: 0.8s ease;
             border-radius: 12px;
             z-index: 10;
         }
 
-        /* 🎬 stan po wyjściu – NA ŚRODKU EKRANU */
+        /* 🎬 stan końcowy – środek + powiększenie */
         .video.show {
             position: fixed;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%) scale(1.8);
+            transform: translate(-50%, -50%) scale(2.2);
             opacity: 1;
+            z-index: 10;
         }
 
         button {
@@ -177,6 +211,10 @@
 
 <div id="giftBtn" onclick="openGift()">🎁</div>
 
+<!-- 🌑 overlay + spotlight -->
+<div id="overlay"></div>
+<div id="spotlight"></div>
+
 <div id="giftPage">
     <div class="gift-box" onclick="openBox()">
         <div class="lid" id="lid">
@@ -228,6 +266,9 @@ function openGift() {
     document.getElementById("content").style.display = "none";
     document.getElementById("giftBtn").style.display = "none";
 
+    document.getElementById("overlay").style.display = "block";
+    document.getElementById("spotlight").style.display = "block";
+
     const music = document.getElementById("music");
     music.pause();
     music.currentTime = 0;
@@ -240,15 +281,15 @@ function openBox() {
 
     const video = document.getElementById("video");
 
-    // pierwszy ruch – wyjście z pudełka
+    // 🎬 start – wychodzi z pudełka
     video.style.opacity = "1";
     video.style.transform = "translateX(-50%) translateY(-180px) scale(1)";
     video.play();
 
-    // drugi ruch – na środek ekranu
+    // 🎬 potem – przejście na środek + większe powiększenie
     setTimeout(() => {
         video.classList.add("show");
-    }, 800);
+    }, 700);
 
     document.getElementById("kiss").play();
 }
